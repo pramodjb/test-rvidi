@@ -1,0 +1,128 @@
+<div  ng-controller="ListCtrl as listCtrl">
+  <nav class="white lighten-4" role="navigation" id="list-nav">
+    <div class="nav-wrapper container"   >
+
+      <a class="brand-logo" href="/#/shows" ng-click="listCtrl.allshows()">
+        <img src="images/header-logo.png" alt="">
+      </a>
+      <span ><button id="dLabel" data-target="#" type="button" data-toggle="dropdown" class=" btn-xs dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+       Your Account
+       <span class="caret"></span>
+     </button>
+     <ul class="dropdown-menu dropdown-menu-custom" aria-labelledby="dLabel">
+      <li class="active"><a href=""><button  type="button" ng-click="listCtrl.allshows()" id="dropdown-list">All Shows</button></a></li></br>
+      <li><a href=""><button   type="button" ng-click="listCtrl.myshows(listCtrl.user_id)" id="dropdown-list" >My Shows</button></a></li></br>
+    </ul>
+  </span>
+
+  <span> <button type="button" id="logout"
+    data-toggle="modal" data-target="#logout1">LOGOUT</button>
+  </span>
+</div>
+</nav>
+<!-- _______________________ -->
+<div class="grey darken-3 section no-pad-bot" id="index-banner-list">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-xs-3 col-sm-2" id="user-img-size" >
+        <img src={{listCtrl.pic}} onError="this.onerror=null;this.src='/images/silhouette.jpg';">
+      </div>
+      <div class="col-md-9 col-xs-9 col-sm-0" id="header-text-list">
+        <h4 >Welcome to rVidi ! </h4>
+        <p  ng-hide="listCtrl.showDetails.Success">You have no shows to watch.</p>
+        <p  ng-show="listCtrl.showDetails.Success">You have
+          <span id="custom-text1">{{listCtrl.showDetails.Total_shows}} shows </span> to watch
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- __________________________ -->
+<div ng-controller="HomeCtrl as controller">
+  <div   class="modal fade bs-example-modal-lg" tabindex="-1" id="myModal1" role="dialog" data-backdrop="static" data-keyboard="false" >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header" id="modal-header-video">
+        <button ng-click="controller.stop()" type="button"  data-dismiss="modal"
+        id="video-close-btn" >&times;</button>
+      </div>
+      <div class="modal-content-custom" id="pop-up-video">
+        <div class="videogular-container" id="vedio-player">
+          <videogular vg-player-ready="controller.onPlayerReady($API)" vg-complete="controller.onCompleteVideo()" vg-theme="controller.config.theme.url">
+            <vg-media vg-src="controller.config.sources"
+            vg-tracks="controller.config.tracks">
+          </vg-media>
+          <vg-controls>
+          <vg-play-pause-button></vg-play-pause-button>
+          <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+          <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        </vg-scrub-bar>
+        <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+        <vg-volume>
+        <vg-mute-button></vg-mute-button>
+        <vg-volume-bar></vg-volume-bar>
+      </vg-volume>
+      <vg-fullscreen-button></vg-fullscreen-button>
+    </vg-controls>
+    <vg-overlay-play></vg-overlay-play>
+    <vg-buffering></vg-buffering>
+    <vg-poster vg-url="controller.config.plugins.poster"></vg-poster>
+  </videogular>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade bs-example-modal-sm" id="logout1" tabindex="-1" role="dialog" aria-labelledby="logoutLabel" aria-hidden="true" >
+  <div class="modal-dialog" id="dialog-modal">
+    <div class="modal-content" id="logout-popup-content">
+
+      <div class="modal-body" id="modal-body">
+        <h4 id="modaltext1">LOG OUT NOW!</h4>
+        <p>Are you sure you want to logout now?</p>
+        <button type="button"  id="logoutbtn" class="btn btn-warning" ng-click="listCtrl.logout()">LOGOUT</button>
+        <p >No thanks, <a id="modaltext2" href=''  data-dismiss="modal">Continue!</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="alertLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-body alert alert-warning" >
+     Video is not merged !
+   </div>
+ </div>
+</div>
+<div ng-if="listCtrl.dataLoading">
+  <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+</div>
+<div class="container medium" >
+
+
+ <div class="row" id="thumbList1">
+ <div class="col-md-4 col-xs-12 col-sm-6" id="thumbnail"  ng-repeat="obj in listCtrl.dataObj">
+    <a id="thumbnail1" >
+      <img  id="img-videos-listpage"  ng-src={{obj.Show_thumbnail_web}}  class="videothumbnail" onError="this.onerror=null;this.src='/images/loading.gif';">
+    </a>
+    <div id="info1" >
+     <a  href="" ng-click="listCtrl.list(obj) || controller.setVideo(obj.Show_url_web) "data-toggle="modal" data-target={{datatarget}}>
+       <img id="play-btn" ng-src="images/play-button-big.png">
+     </a>
+     <div id="title-text-1" > {{ obj.Title}}
+      <div id="title-text-33"> {{ obj.Director_details.Firstname}}</div>
+      <div ng-hide="obj.No_of_contributers != 1"id="title-text2"> <span id="contributers"> {{ obj.No_of_contributers}}</span> Contributer </div>
+      <div ng-show="obj.No_of_contributers >1"id="title-text2"> <span id="contributers"> {{ obj.No_of_contributers}}</span> Contributers </div>
+    </div>
+  </div>
+</div>
+</div>
+<div  id = "pagination-div" >
+<input  ng-hide="listCtrl.dataLoading || listCtrl.selectedPage == 1" type="button" value="First" class="pagin-btn"  ng-click="listCtrl.paginate(1)" />
+ <input  ng-hide="listCtrl.dataLoading || listCtrl.selectedPage == 1" type="button" value="<<" class="pagin-btn"  ng-click="listCtrl.prev(listCtrl.selectedPage)" />
+   <input ng-hide="listCtrl.dataLoading || n < 1" type="button" id="pagination" ng-class="{active: listCtrl.selectedPage == n}" ng-repeat="n in range()" value="{{n}}" ng-click="listCtrl.paginate(n)">
+ <input  ng-hide="listCtrl.dataLoading ||listCtrl.selectedPage >= listCtrl.no_of_pages " type="button"  value=">>" class="pagin-btn"   ng-click="listCtrl.next(listCtrl.selectedPage)"/>
+<input ng-hide="listCtrl.dataLoading || listCtrl.selectedPage >= listCtrl.no_of_pages"  type="button" value="Last" class="pagin-btn" ng-click="listCtrl.paginate(listCtrl.no_of_pages)" />
+</div>
+</div>
+</div>
+</div>
+

@@ -1,0 +1,99 @@
+<nav class="white lighten-4" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/#/" class="brand-logo"><img src="images/header-logo.png" alt=""></a>
+   <span><button type="button" id="login" ng-click="logCtrl.popup()" data-toggle="modal" data-target="#myModal">LOGIN</button></span>
+    </div>
+  </nav>
+  <div  ng-controller = "LoginCtrl as logCtrl">
+  <form name = "Loginform" class="form-signin" role="form" novalidate>
+     <div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="modal-login-label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog" id="login-modal">
+            <div class="modal-content  modal-body-custom">
+
+              <div class="modal-header  setup-image">
+                <button  type="button" class="close" id="close-login" data-dismiss="modal" ng-click="logCtrl.close()">
+            <img src="images/close-icon.png" alt="" aria-hidden="true"></button>
+            <span ><img src="images/small-logo.png" alt="" ></span>
+              </div>
+              <h4><span class="log-text">Login</span></h4>
+                <div id="err-text" ng-show="logCtrl.errorMsgFlag">
+            <label class="control-label" for="inputError"> Invalid Email or Password </label>
+          </div>
+              <div class="modal-body" id="login-pop-up">
+
+                     <form role="form">
+              <div class="form-group ">
+
+
+                <span id="email-icon" class="span glyphicon glyphicon-user icon-set"></span>
+                <input type="text" placeholder="Email" name="email" ng-model="logCtrl.Loginform.email" class="input form-control ng-pristine ng-untouched ng-valid" id="password" required />
+              </div>
+              <div class="form-group ">
+                <span id="email-icon" class="span glyphicon glyphicon-lock icon-set1"></span>
+
+                <input type="password"  placeholder="Password" name="password" id="password" class="form-control ng-pristine ng-untouched ng-valid" ng-model="logCtrl.Loginform.password" required />
+
+              </div><br> <br>
+              <input class="btn btn-lg modal-foot1 btn-block"  type="Submit" name="Submit" value="Submit"  ng-click="logCtrl.login()"   ng-disabled="Loginform.email.$error.required || Loginform.password.$error.required" data-target="#myModal"/>
+
+            </form>
+
+              </div>
+                         <!-- <input class="btn btn-lg modal-foot1 btn-block"  type="Submit" name="Submit" value="Submit"  ng-click="logCtrl.login()"   ng-disabled="Loginform.email.$error.required || Loginform.password.$error.required" data-target="#myModal"/> -->
+
+            </div>
+          </div>
+        </div>
+        </form>
+  </div>
+
+<div class="grey darken-3 section no-pad-bot" id="index-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-xs-3 col-sm-2" id="mob-img-size" >
+        <img src="/images/oie_transparent.png" class="image-responsive-mobile"  style="height:140px">
+      </div>
+      <div class="col-md-7 col-xs-7 col-sm-6" id="header-text">
+        <h4>Create your own Movie?</h4>
+        <p id="sign-up-text">Sign up with <span id="rvidi-text"><a href="https://itunes.apple.com/in/genre/ios/id36?mt=8" target="_blank">rVidi</a></span> and you start your own
+
+        professional video editing tool on the go!</p>
+      </div>
+      <div class="col-md-2 col-xs-2 col-sm-2"  id="header-icon">
+        <img src="/images/introBarLogo.png" id="rvidi_logo">
+        <a href="https://itunes.apple.com/in/genre/ios/id36?mt=8" target="_blank"> <img src="/images/applestore.png" target="_blank" id="app-store"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="alert1" tabindex="-1" role="dialog" aria-labelledby="alertLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-body alert alert-warning" >
+     Session as expired please login again!!
+   </div>
+ </div>
+</div>
+
+<div ng-if="logCtrl.dataLoading" >
+  <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..."  />
+</div>
+<div >
+ <div class="row" id="thumbList">
+  <div class="col-md-4 col-xs-12 col-sm-6" id="thumb" ng-repeat="obj in logCtrl.dataObj">
+    <a id="thumb1">
+      <img id="img-videos"  ng-src={{obj.Show_thumbnail_web}} onError="this.onerror=null;this.src='/images/loading.gif';"  ></a>
+      <div id="info">
+       <a href="">
+         <img href="" id="play-btn" ng-src="images/play-button-big.png" ng-click="logCtrl.player(obj)" class="img-responsive" data-toggle="modal" data-target="#myModal">
+       </a>
+       <div class="row">
+         <div id="title-text"> {{ obj.Title}}
+           <div  id="title-text1">  {{obj.Director_details.Firstname}}</div>
+           <div ng-hide="obj.No_of_contributers != 1" id="title-text2"> <span id="contributers"> {{ obj.No_of_contributers}}</span> Contributer </div>
+           <div ng-show="obj.No_of_contributers >1" id="title-text2"> <span id="contributers"> {{ obj.No_of_contributers}}</span> Contributers </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+
